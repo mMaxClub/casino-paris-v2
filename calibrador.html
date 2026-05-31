@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>📍 Calibrador de Coordenadas - Casino Paris</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: #0b1120;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+    
+    .header {
+      background: #0f172a;
+      padding: 1.5rem 2rem;
+      border-bottom: 2px solid #1e293b;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    .controls {
+      background: #1e293b;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    label {
+      font-size: 0.875rem;
+      color: #94a3b8;
+      font-weight: 600;
+    }
+    
+    select, input[type="file"] {
+      padding: 0.5rem;
+      border: 1px solid #334155;
+      border-radius: 0.25rem;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-width: 250px;
+    }
+    
+    button {
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.2s;
+      background: #3b82f6;
+      color: white;
+    }
+    
+    button:hover { background: #2563eb; transform: translateY(-1px); }
+    button:disabled { background: #475569; cursor: not-allowed; transform: none; }
+    button.secondary { background: #64748b; }
+    button.secondary:hover { background: #475569; }
+    button.success { background: #22c55e; }
+    button.success:hover { background: #16a34a; }
+    
+    .canvas-container {
+      background: #1e293b;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 2rem;
+      overflow: auto;
+      max-height: 70vh;
+    }
+    
+    #calibradorCanvas {
+      border: 2px dashed #475569;
+      border-radius: 0.25rem;
+      cursor: crosshair;
+      display: block;
+      margin: 0 auto;
+    }
+    
+    .info-panel {
+      background: #1e293b;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    
+    .info-section {
+      background: #0f172a;
+      padding: 1rem;
+      border-radius: 0.25rem;
+    }
+    
+    .info-section h4 {
+      color: #3b82f6;
+      margin-bottom: 0.75rem;
+      font-size: 1.125rem;
+    }
+    
+    .info-section p {
+      margin: 0.5rem 0;
+      color: #94a3b8;
+    }
+    
+    .coords {
+      color: #22c55e;
+      font-size: 1.25rem;
+      font-weight: 700;
+    }
+    
+    .instructions {
+      background: #1e293b;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #3b82f6;
+    }
+    
+    .instructions h3 {
+      color: #3b82f6;
+      margin-bottom: 0.5rem;
+    }
+    
+    .instructions ul {
+      margin-left: 1.5rem;
+      color: #94a3b8;
+    }
+    
+    .instructions li {
+      margin: 0.25rem 0;
+    }
+    
+    #imageInfo {
+      color: #94a3b8;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>📍 Calibrador de Coordenadas</h1>
+    <p style="color: #94a3b8; margin-top: 0.5rem;">
+      Sube la imagen de tu plano y haz clic en las máquinas para extraer coordenadas
+    </p>
+  </header>
+  
+  <div class="container">
+    <div class="instructions">
+      <h3>📋 Instrucciones:</h3>
+      <ul>
+        <li>Selecciona una máquina del listado</li>
+        <li>Sube la imagen del plano (PNG, JPG)</li>
+        <li>Haz clic en la posición de la máquina (mínimo 3 puntos)</li>
+        <li>El sistema calculará el promedio automáticamente</li>
+        <li>Guarda para sincronizar con la base de datos</li>
+      </ul>
+    </div>
+    
+    <div class="controls">
+      <div class="control-group">
+        <label for="maquinaSelect">🎰 Máquina:</label>
+        <select id="maquinaSelect">
+          <option value="">Cargando máquinas...</option>
+        </select>
+      </div>
+      
+      <div class="control-group">
+        <label for="imageInput">📂 Imagen del Plano:</label>
+        <input type="file" id="imageInput" accept="image/*">
+        <span id="imageInfo">Esperando imagen...</span>
+      </div>
+      
+      <button id="saveAllBtn" class="success">💾 Guardar Calibración</button>
+      <button id="downloadJsonBtn" class="secondary">📥 Descargar JSON</button>
+      <button id="copyTextBtn" class="secondary">📋 Copiar Texto</button>
+    </div>
+    
+    <div class="canvas-container">
+      <canvas id="calibradorCanvas" width="1200" height="800"></canvas>
+    </div>
+    
+    <div id="calibrationInfo" class="info-panel">
+      <div class="info-section">
+        <h4>Información</h4>
+        <p>Selecciona una máquina para comenzar</p>
+      </div>
+    </div>
+  </div>
+  
+  <script type="module" src="/src/modules/calibrador.js"></script>
+</body>
+</html>
