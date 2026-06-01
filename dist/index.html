@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1120">
+  <title>Casino Paris | Gestión Integral</title>
+  <link rel="manifest" href="/manifest.json">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: 'Segoe UI', system-ui, sans-serif; 
+      background: #0b1120; 
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+    body.offline { opacity: 0.8; }
+    
+    .header {
+      background: #0f172a;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #1e293b;
+    }
+    
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.875rem;
+    }
+    
+    .status-online { color: #22c55e; }
+    .status-offline { color: #ef4444; }
+    
+    .sync-stats {
+      background: #1e293b;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .sync-stats:hover { background: #334155; }
+    
+    .main-container {
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    .conflict-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #dc2626;
+      color: white;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      z-index: 10000;
+      max-width: 400px;
+      animation: slideIn 0.3s ease;
+    }
+    
+    @keyframes slideIn {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    .conflict-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .conflict-actions button {
+      flex: 1;
+      padding: 0.5rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: opacity 0.2s;
+    }
+    
+    .conflict-actions button:hover { opacity: 0.9; }
+    
+    /* Agrega más estilos según necesites */
+  </style>
+  <script type="module" crossorigin src="/assets/index-CORPhB1x.js"></script>
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+<body>
+  <header class="header">
+    <h1>🎰 Casino Paris - Gestión</h1>
+    <div class="status-indicator">
+      <span id="connectionStatus">⚪ Iniciando...</span>
+      <span id="syncStats" class="sync-stats" title="Estado de sincronización">
+        ⏳ Cargando...
+      </span>
+      <button id="syncButton" class="sync-stats">🔄 Sincronizar</button>
+    </div>
+  </header>
+  
+  <main class="main-container">
+    <div id="app">
+      <!-- El contenido se genera dinámicamente -->
+      <p>Cargando aplicación...</p>
+    </div>
+  </main>
+  
+</body>
+</html>
