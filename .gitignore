@@ -1,20 +1,43 @@
 # Dependencias
+<<<<<<< HEAD
 node_modules/
 
 # Entorno
+=======
+node_modules
+/
+
+# Archivos de entorno
+>>>>>>> 0f61e7c63f8f50789f823ef4ea548e91cb0c56e5
 .env
 .env.local
 .env.*.local
 
+<<<<<<< HEAD
 # Build output
 dist/
 *.log
 
 # Sistema
+=======
+# Output de build
+dist
+/
+*.log
+
+# Sistema operativo
+>>>>>>> 0f61e7c63f8f50789f823ef4ea548e91cb0c56e5
 .DS_Store
 Thumbs.db
 
 # IDE
+<<<<<<< HEAD
 .idea/
 .vscode/
 *.swp
+=======
+.idea
+.vscode
+*.swp
+*.swo
+>>>>>>> 0f61e7c63f8f50789f823ef4ea548e91cb0c56e5
