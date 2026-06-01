@@ -1,0 +1,23 @@
+# Dependencias
+node_modules
+/
+
+# Archivos de entorno
+.env
+.env.local
+.env.*.local
+
+# Output de build
+dist
+/
+*.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
