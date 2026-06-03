@@ -2,6 +2,7 @@ import { supabase } from './config.js';
 import { initDB, startAutoSync, getSyncStats, processQueue } from './core/sync.js';
 import { forceSync } from './core/db.js';
 import { onConnectionChange, isOnline } from './core/utils.js';
+import { renderDashboard } from './modules/dashboard.js'; //
 
 class CasinoParisApp {
   constructor() {
@@ -42,6 +43,7 @@ class CasinoParisApp {
       
       // Actualizar UI
       this.updateOnlineStatus();
+	  await renderDashboard(); 
       
     } catch (error) {
       console.error('❌ Error inicializando:', error);
