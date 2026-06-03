@@ -1,6 +1,8 @@
 {
   "name": "casino-paris-gestion",
   "version": "2.0.0",
+    "engines": {
+    "node": ">=20.10.0"
   "type": "module",
   "private": true,
   "scripts": {
